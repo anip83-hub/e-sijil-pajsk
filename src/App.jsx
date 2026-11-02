@@ -965,9 +965,58 @@ const StudentManagementView = () => {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-100">
+                <th className="p-4 font-semibold text-gray-600">ID Murid</th>
+                <th className="p-4 font-semibold text-gray-600">Nama Penuh</th>
+                <th className="p-4 font-semibold text-gray-600 text-center w-24">Tindakan</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map(student => (
+                <tr key={student.id} className="border-b border-gray-50 hover:bg-gray-50/50">
+                  <td className="p-4 text-gray-600 font-mono">{student.id_murid}</td>
+                  <td className="p-4 font-medium text-gray-800">{student.nama}</td>
+                  <td className="p-4 text-center">
+                    <button onClick={() => deleteStudent(student.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Padam Murid">
+                      <Trash size={18} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {students.length === 0 && (
+                <tr><td colSpan="3" className="p-8 text-center text-gray-500">Tiada rekod murid.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Modal Tambah Murid Manual */}
+      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Tambah Murid Secara Manual">
+        <form onSubmit={handleAddManual} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">ID Murid</label>
+            <input required type="text" value={newStudent.id_murid} onChange={e => setNewStudent({...newStudent, id_murid: e.target.value})} className="w-full p-2.5 border border-gray-200 rounded-lg outline-none focus:border-[#38BDF8]" placeholder="Cth: M005" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Penuh</label>
+            <input required type="text" value={newStudent.nama} onChange={e => setNewStudent({...newStudent, nama: e.target.value})} className="w-full p-2.5 border border-gray-200 rounded-lg outline-none focus:border-[#38BDF8]" placeholder="Cth: Aminuddin Baki" />
+          </div>
+          <div className="flex justify-end gap-2 pt-4">
+            <button type="button" onClick={() => setShowAddModal(false)} className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg">Batal</button>
+            <button type="submit" className="px-4 py-2 bg-[#123B75] text-white rounded-lg">Simpan</button>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  );
+};
 
 // 7. USER MANAGEMENT (ADMIN)
-const UserManagementView = () ='>' {
+const UserManagementView = () => {
   const { usersList, addUser, deleteUserFromList } = useContext(AppContext);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newUser, setNewUser] = useState({ username: '', password: '', nama: '', peranan: 'parent' });
