@@ -967,7 +967,7 @@ const StudentManagementView = () => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
 
 // 7. USER MANAGEMENT (ADMIN)
-const UserManagementView = () => {
+const UserManagementView = () ='>' {
   const { usersList, addUser, deleteUserFromList } = useContext(AppContext);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newUser, setNewUser] = useState({ username: '', password: '', nama: '', peranan: 'parent' });
