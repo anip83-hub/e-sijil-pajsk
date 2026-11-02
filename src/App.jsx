@@ -27,10 +27,10 @@ const initialCertificates = [
 ];
 
 const initialUsers = [
-  { id: 'u1', username: 'admin', password: '123', nama: 'Admin', peranan: 'admin', status: 'Aktif' },
-  { id: 'u2', username: 'pengesah', password: '123', nama: 'Cikgu Ahmad (PK Koko)', peranan: 'verifier', status: 'Aktif' },
-  { id: 'u3', username: 'guru', password: '123', nama: 'Cikgu Siti', peranan: 'teacher', status: 'Aktif' },
-  { id: 'u4', username: 'bapa', password: '123', nama: 'Ahmad bin Abu (Bapa)', peranan: 'parent', status: 'Aktif' }
+  { id: 'u1', username: 'admin', password: 'cba0021', nama: 'Admin', peranan: 'admin', status: 'Aktif' },
+  { id: 'u2', username: 'pengesah', password: 'koko', nama: 'PK Koko/SU Koko', peranan: 'verifier', status: 'Aktif' },
+  { id: 'u3', username: 'guru', password: 'guru', nama: 'Guru', peranan: 'teacher', status: 'Aktif' },
+  { id: 'u4', username: 'Ibubapa', password: '123', nama: 'IbuBapa', peranan: 'parent', status: 'Aktif' }
 ];
 
 const levelsWeight = {
