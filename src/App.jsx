@@ -880,6 +880,28 @@ const StudentManagementView = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newStudent, setNewStudent] = useState({ id_murid: '', nama: '' });
 
+  // Fungsi muat turun templat CSV murid yang mengandungi senarai ID & Nama Murid
+  const downloadStudentTemplate = () => {
+    let csvContent = "ID_Murid,Nama_Murid\n";
+    if (students.length > 0) {
+      students.forEach(s => {
+        csvContent += `${s.id_murid},"${s.nama}"\n`;
+      });
+    } else {
+      csvContent += "M001,Ahmad bin Abu\nM002,Siti Aminah\n";
+    }
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Template_Murid_PAJSK.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -893,7 +915,7 @@ const StudentManagementView = () => {
             return {
               id: Date.now().toString() + index,
               id_murid: parts[0].trim(),
-              nama: parts[1].trim(),
+              nama: parts[1].replace(/"/g, '').trim(),
               kelas: 'Belum Ditetapkan',
               status: 'Aktif'
             };
@@ -928,7 +950,10 @@ const StudentManagementView = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h2 className="text-2xl font-bold text-gray-800">Pengurusan Murid</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button onClick={downloadStudentTemplate} className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors shadow-sm">
+            <Download size={18} /> Muat Turun Templat
+          </button>
           <button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 px-4 py-2 bg-[#123B75] text-white rounded-lg hover:bg-blue-900 transition-colors">
             <Plus size={18} /> Tambah Murid
           </button>
@@ -940,55 +965,6 @@ const StudentManagementView = () => {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-100">
-                <th className="p-4 font-semibold text-gray-600">ID Murid</th>
-                <th className="p-4 font-semibold text-gray-600">Nama Penuh</th>
-                <th className="p-4 font-semibold text-gray-600 text-center w-24">Tindakan</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map(student => (
-                <tr key={student.id} className="border-b border-gray-50 hover:bg-gray-50/50">
-                  <td className="p-4 text-gray-600 font-mono">{student.id_murid}</td>
-                  <td className="p-4 font-medium text-gray-800">{student.nama}</td>
-                  <td className="p-4 text-center">
-                    <button onClick={() => deleteStudent(student.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Padam Murid">
-                      <Trash size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {students.length === 0 && (
-                <tr><td colSpan="3" className="p-8 text-center text-gray-500">Tiada rekod murid.</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Modal Tambah Murid Manual */}
-      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Tambah Murid Secara Manual">
-        <form onSubmit={handleAddManual} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ID Murid</label>
-            <input required type="text" value={newStudent.id_murid} onChange={e => setNewStudent({...newStudent, id_murid: e.target.value})} className="w-full p-2.5 border border-gray-200 rounded-lg outline-none focus:border-[#38BDF8]" placeholder="Cth: M005" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nama Penuh</label>
-            <input required type="text" value={newStudent.nama} onChange={e => setNewStudent({...newStudent, nama: e.target.value})} className="w-full p-2.5 border border-gray-200 rounded-lg outline-none focus:border-[#38BDF8]" placeholder="Cth: Aminuddin Baki" />
-          </div>
-          <div className="flex justify-end gap-2 pt-4">
-            <button type="button" onClick={() => setShowAddModal(false)} className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg">Batal</button>
-            <button type="submit" className="px-4 py-2 bg-[#123B75] text-white rounded-lg">Simpan</button>
-          </div>
-        </form>
-      </Modal>
-    </div>
-  );
-};
 
 // 7. USER MANAGEMENT (ADMIN)
 const UserManagementView = () => {
