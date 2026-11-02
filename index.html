@@ -1,12 +1,26 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ms">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>e-sijil-pajsk</title>
+    <title>e-SIJIL PAJSK - SK FELDA SG KEMAHAL</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: '#123B75',
+              accent: '#38BDF8',
+            }
+          }
+        }
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
